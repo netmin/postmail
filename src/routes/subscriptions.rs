@@ -21,7 +21,10 @@ pub async fn subscribe(form: web::Form<FormData>, pool: web::Data<PgPool>) -> Ht
     match insert_subscriber(&pool, &form).await {
         Ok(_) => HttpResponse::Ok().finish(),
 
-        Err(_) => HttpResponse::InternalServerError().finish(),
+        Err(e) => {
+            println!("{:?}", e);
+            HttpResponse::InternalServerError().finish()
+        },
     }
 }
 
